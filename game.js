@@ -10,8 +10,18 @@ whaleBallsImg.src = "images/whaleBalls.png";
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = 675;
-canvas.height = 650;
+function resizeCanvas() {
+
+  let maxWidth = window.innerWidth - 40;
+  let aspectRatio = 650 / 675;
+
+  canvas.width = maxWidth;
+  canvas.height = maxWidth * aspectRatio;
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
 
 // ----------------------
 // HIT COUNTER
@@ -61,6 +71,10 @@ function drawNephew() {
         nephew.width,
         nephew.height
     );
+}
+
+function positionNephew() {
+  nephew.y = canvas.height - nephew.height - 10;
 }
 
 
@@ -168,6 +182,7 @@ function gameLoop() {
     moveWhales();
     detectHit();
 
+    positionNephew();
     drawNephew();
     drawWhales();
     drawCounter();
