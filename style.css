@@ -20,3 +20,24 @@ canvas {
   height: 100%;
   display: block;
 }
+
+#controls {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+#controls button {
+  font-size: 30px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid black;
+  background: white;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+

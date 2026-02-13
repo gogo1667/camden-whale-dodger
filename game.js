@@ -208,3 +208,33 @@ function drawHitFlash() {
 
 
 gameLoop();
+
+function holdKey(key) {
+  return function(e) {
+    e.preventDefault();
+    keys[key] = true;
+  };
+}
+
+function releaseKey(key) {
+  return function(e) {
+    e.preventDefault();
+    keys[key] = false;
+  };
+}
+
+// LEFT BUTTON
+leftBtn.addEventListener("touchstart", holdKey("ArrowLeft"), { passive:false });
+leftBtn.addEventListener("touchend", releaseKey("ArrowLeft"), { passive:false });
+leftBtn.addEventListener("mousedown", holdKey("ArrowLeft"));
+leftBtn.addEventListener("mouseup", releaseKey("ArrowLeft"));
+leftBtn.addEventListener("mouseleave", releaseKey("ArrowLeft"));
+
+// RIGHT BUTTON
+rightBtn.addEventListener("touchstart", holdKey("ArrowRight"), { passive:false });
+rightBtn.addEventListener("touchend", releaseKey("ArrowRight"), { passive:false });
+rightBtn.addEventListener("mousedown", holdKey("ArrowRight"));
+rightBtn.addEventListener("mouseup", releaseKey("ArrowRight"));
+rightBtn.addEventListener("mouseleave", releaseKey("ArrowRight"));
+
+
