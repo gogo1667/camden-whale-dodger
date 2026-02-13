@@ -15,7 +15,9 @@ function resizeCanvas() {
   let baseWidth = 675;
   let baseHeight = 900;
 
-  let availableHeight = window.innerHeight - 160;
+  let controlSpace = 180; // arrows + safari bar
+
+  let availableHeight = window.innerHeight - controlSpace;
 
   let scale = Math.min(
     window.innerWidth / baseWidth,
@@ -30,6 +32,7 @@ function resizeCanvas() {
   canvas.width = baseWidth;
   canvas.height = baseHeight;
 }
+
 
 
 
