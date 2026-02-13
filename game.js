@@ -1,3 +1,6 @@
+let nephewImg = new Image();
+nephewImg.src = "images/camden.png";
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -15,12 +18,14 @@ let hitCount = 0;
 // ----------------------
 
 let nephew = {
-  x: canvas.width / 2 - 25,
-  y: canvas.height - 70,
-  width: 50,
-  height: 50,
+  x: canvas.width / 2 - 45,
+  y: canvas.height - 90 - 10,
+  width: 90,
+  height: 90,
   speed: 7
 };
+
+
 
 let keys = {};
 
@@ -42,9 +47,15 @@ function moveNephew() {
 }
 
 function drawNephew() {
-  ctx.fillStyle = "lime";
-  ctx.fillRect(nephew.x, nephew.y, nephew.width, nephew.height);
+  ctx.drawImage(
+    nephewImg,
+    nephew.x,
+    nephew.y,
+    nephew.width,
+    nephew.height
+  );
 }
+
 
 // ----------------------
 // WHALES
