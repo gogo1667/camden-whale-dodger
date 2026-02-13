@@ -4,6 +4,9 @@ nephewImg.src = "images/camden.png";
 let whaleImg = new Image();
 whaleImg.src = "images/whale.png";
 
+let whaleBallsImg = new Image();
+whaleBallsImg.src = "images/whaleBalls.png";
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -180,31 +183,18 @@ function drawHitFlash() {
 
     ctx.save();
 
-    let boxWidth = 400;
-    let boxHeight = 150;
+    let splashWidth = 250;
+    let splashHeight = 150;
 
-    let boxX = canvas.width / 2 - boxWidth / 2;
-    let boxY = canvas.height / 2 - boxHeight / 2;
+    let splashX = canvas.width / 2 - splashWidth / 2;
+    let splashY = canvas.height / 2 - splashHeight / 2;
 
-    // DRAW WHITE BOX
-    ctx.fillStyle = "white";
-    ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
-
-    // DRAW BLACK BORDER
-    ctx.lineWidth = 6;
-    ctx.strokeStyle = "black";
-    ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
-
-    // DRAW TEXT
-    ctx.fillStyle = "black";
-    ctx.font = "bold 40px Arial";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    ctx.fillText(
-      "WHALE BALLS!",
-      canvas.width / 2,
-      canvas.height / 2
+    ctx.drawImage(
+      whaleBallsImg,
+      splashX,
+      splashY,
+      splashWidth,
+      splashHeight
     );
 
     ctx.restore();
@@ -212,6 +202,7 @@ function drawHitFlash() {
     hitFlashTimer--;
   }
 }
+
 
 
 
