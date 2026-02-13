@@ -13,7 +13,7 @@ const ctx = canvas.getContext("2d");
 function resizeCanvas() {
 
   let baseWidth = 675;
-  let baseHeight = 650;
+  let baseHeight = 900;
 
   let availableHeight = window.innerHeight - 160;
 
@@ -88,7 +88,7 @@ function drawNephew() {
 }
 
 function positionNephew() {
-  nephew.y = canvas.height - nephew.height - 10;
+  nephew.y = canvas.height - nephew.height - 80;
 }
 
 
