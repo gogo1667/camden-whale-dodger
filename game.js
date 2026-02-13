@@ -12,12 +12,25 @@ const ctx = canvas.getContext("2d");
 
 function resizeCanvas() {
 
-  let maxWidth = window.innerWidth - 40;
-  let aspectRatio = 650 / 675;
+  let baseWidth = 675;
+  let baseHeight = 650;
 
-  canvas.width = maxWidth;
-  canvas.height = maxWidth * aspectRatio;
+  let availableHeight = window.innerHeight - 140; // leave room for buttons
+
+  let scale = Math.min(
+    window.innerWidth / baseWidth,
+    availableHeight / baseHeight
+  );
+
+  scale = Math.min(scale, 1);
+
+  canvas.style.width = baseWidth * scale + "px";
+  canvas.style.height = baseHeight * scale + "px";
+
+  canvas.width = baseWidth;
+  canvas.height = baseHeight;
 }
+
 
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
