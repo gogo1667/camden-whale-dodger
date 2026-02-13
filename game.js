@@ -1,6 +1,9 @@
 let nephewImg = new Image();
 nephewImg.src = "images/camden.png";
 
+let whaleImg = new Image();
+whaleImg.src = "images/whale.png";
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -66,55 +69,52 @@ let whales = [];
 
 function spawnWhale() {
 
-    let whale = {
-        x: Math.random() * (canvas.width - 60),
-        y: 0,
-        width: 60,
-        height: 40,
-        state: "warning",
-        timer: 60
-    };
+  let whale = {
+    x: Math.random() * (canvas.width - 90),
+    y: 0,
+    width: 90,
+    height: 70,
+    timer: 60
+  };
 
-    whales.push(whale);
+  whales.push(whale);
 }
+
 
 setInterval(spawnWhale, 2000);
 
 function moveWhales() {
 
-    whales.forEach(whale => {
+  whales.forEach(whale => {
 
-        if (whale.state === "warning") {
-            whale.timer--;
+    if (whale.timer > 0) {
+      whale.timer--;
+    } else {
+      whale.y += 8;
+    }
 
-            if (whale.timer <= 0) {
-                whale.state = "falling";
-            }
-        }
+  });
 
-        else if (whale.state === "falling") {
-            whale.y += 10;
-        }
-
-    });
-
-    whales = whales.filter(whale => whale.y < canvas.height);
+  whales = whales.filter(whale => whale.y < canvas.height);
 }
+
 
 function drawWhales() {
 
-    whales.forEach(whale => {
+  whales.forEach(whale => {
 
-        if (whale.state === "warning") {
-            ctx.fillStyle = "yellow";
-        } else {
-            ctx.fillStyle = "cyan";
-        }
+    ctx.drawImage(
+      whaleImg,
+      whale.x,
+      whale.y,
+      whale.width,
+      whale.height
+    );
 
-        ctx.fillRect(whale.x, whale.y, whale.width, whale.height);
-
-    });
+  });
 }
+
+
 
 // ----------------------
 // COLLISION
