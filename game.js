@@ -179,7 +179,7 @@ function detectHit() {
 function drawCounter() {
     ctx.fillStyle = "white";
     ctx.font = "30px Arial";
-    ctx.fillText("Whales Hit: " + hitCount, 20, 40);
+    ctx.fillText("Whale Hits: " + hitCount, 20, 40);
 }
 
 // ----------------------
