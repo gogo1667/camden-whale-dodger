@@ -15,7 +15,7 @@ function resizeCanvas() {
   let baseWidth = 675;
   let baseHeight = 900;
 
-  let controlSpace = 180; // arrows + safari bar
+  let controlSpace = 120; // arrows + safari bar
 
   let availableHeight = window.innerHeight - controlSpace;
 
@@ -32,9 +32,6 @@ function resizeCanvas() {
   canvas.width = baseWidth;
   canvas.height = baseHeight;
 }
-
-
-
 
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
@@ -54,12 +51,10 @@ let hitFlashTimer = 0;
 let nephew = {
     x: canvas.width / 2 - 45,
     y: canvas.height - 90 - 10,
-    width: 90,
-    height: 90,
+    width: 150,
+    height: 150,
     speed: 7
 };
-
-
 
 let keys = {};
 
@@ -91,7 +86,7 @@ function drawNephew() {
 }
 
 function positionNephew() {
-  nephew.y = canvas.height - nephew.height - 80;
+  nephew.y = canvas.height - nephew.height - 20;
 }
 
 
