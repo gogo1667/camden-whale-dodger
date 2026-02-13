@@ -15,7 +15,7 @@ function resizeCanvas() {
   let baseWidth = 675;
   let baseHeight = 650;
 
-  let availableHeight = window.innerHeight - 140; // leave room for buttons
+  let availableHeight = window.innerHeight - 160;
 
   let scale = Math.min(
     window.innerWidth / baseWidth,
@@ -30,6 +30,7 @@ function resizeCanvas() {
   canvas.width = baseWidth;
   canvas.height = baseHeight;
 }
+
 
 
 resizeCanvas();
