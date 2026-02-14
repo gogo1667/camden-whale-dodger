@@ -1,3 +1,11 @@
+let playerName = localStorage.getItem("whalePlayerName");
+
+if (!playerName) {
+    playerName = prompt("Enter your name:");
+    localStorage.setItem("whalePlayerName", playerName);
+}
+
+
 let gameOver = false;
 let resetTimer = 0;
 
@@ -20,6 +28,21 @@ let whales = [];
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+
+async function saveScore(name, score) {
+
+    const newScore = {
+        name: name,
+        score: score,
+        date: new Date()
+    };
+
+    await setDoc(
+        doc(window.db, "scores", crypto.randomUUID()),
+        newScore
+    );
+}
+
 
 function resizeCanvas() {
 
@@ -301,7 +324,10 @@ retryBtn.addEventListener("touchstart", (e) => {
     resetGame();
 }, { passive: false });
 
-retryBtn.addEventListener("click", () => {
+retryBtn.addEventListener("click", async () => {
+
+await saveScore(playerName, hitCount);
+
     resetGame();
 });
 

@@ -24,6 +24,32 @@
     </div>
 
 
+
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCclgnOZ6zk-Bp3EmpCPu6oNZJLhNG5-mQ",
+            authDomain: "whale-balls.firebaseapp.com",
+            projectId: "whale-balls",
+            storageBucket: "whale-balls.firebasestorage.app",
+            messagingSenderId: "895956394852",
+            appId: "1:895956394852:web:0c46b3243575e06d8dd071"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.doc = doc;
+        window.getDoc = getDoc;
+        window.setDoc = setDoc;
+
+    </script>
+
     <script src="game.js"></script>
 </body>
 
