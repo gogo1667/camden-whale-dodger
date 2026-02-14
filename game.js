@@ -200,29 +200,35 @@ function detectCatch() {
 
 function detectMiss() {
 
-    if (gameOver) return;
+  if (gameOver) return;
 
-    for (let whale of whales) {
+  for (let whale of whales) {
 
-        if (whale.y + whale.height >= canvas.height) {
+    if (whale.y + whale.height >= canvas.height) {
 
-            gameOver = true;
-            hitFlashTimer = 120; // 2 seconds at 60fps
-            resetTimer = 120;
+      gameOver = true;
+      hitFlashTimer = 9999;
 
-            break;
-        }
+      retryBtn.style.display = "block";
+
+      break;
     }
+  }
 }
+
 
 function resetGame() {
 
-    whales = [];
-    hitCount = 0;
-    gameOver = false;
+  whales = [];
+  hitCount = 0;
+  gameOver = false;
 
-    nephew.x = canvas.width / 2 - nephew.width / 2;
+  nephew.x = canvas.width / 2 - nephew.width / 2;
+hitFlashTimer = 0;
+
+  retryBtn.style.display = "none";
 }
+
 
 
 // ----------------------
@@ -232,7 +238,7 @@ function resetGame() {
 function drawCounter() {
     ctx.fillStyle = "white";
     ctx.font = "30px Arial";
-    ctx.fillText("Whale Captures: " + hitCount, 20, 40);
+    ctx.fillText("Whales: " + hitCount, 20, 40);
 }
 
 // ----------------------
@@ -272,11 +278,11 @@ function drawHitFlash() {
 
         ctx.save();
 
-        let splashWidth = 250;
-        let splashHeight = 150;
+        let splashWidth = 360;
+        let splashHeight = 240;
 
         let splashX = canvas.width / 2 - splashWidth / 2;
-        let splashY = canvas.height / 2 - splashHeight / 2;
+        let splashY = canvas.height / 2 - splashHeight / 2 - 120;
 
         ctx.drawImage(
             whaleBallsImg,
@@ -325,5 +331,16 @@ rightBtn.addEventListener("touchend", releaseKey("ArrowRight"), { passive: false
 rightBtn.addEventListener("mousedown", holdKey("ArrowRight"));
 rightBtn.addEventListener("mouseup", releaseKey("ArrowRight"));
 rightBtn.addEventListener("mouseleave", releaseKey("ArrowRight"));
+
+let retryBtn = document.getElementById("retryBtn");
+
+retryBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  resetGame();
+}, { passive:false });
+
+retryBtn.addEventListener("click", () => {
+  resetGame();
+});
 
 
