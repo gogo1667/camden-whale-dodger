@@ -21,6 +21,20 @@ let whales = [];
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+let playerName = localStorage.getItem("whalePlayerName");
+
+if (!playerName) {
+
+    playerName = prompt("Welcome to Whale Balls!\n\nEnter your name:");
+
+    if (!playerName || playerName.trim() === "") {
+        playerName = "Anonymous Whale Hunter";
+    }
+
+    localStorage.setItem("whalePlayerName", playerName);
+}
+
+
 function resizeCanvas() {
 
     let baseWidth = 675;
