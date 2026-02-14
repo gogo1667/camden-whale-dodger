@@ -1,3 +1,6 @@
+let gameOver = false;
+let resetTimer = 0;
+
 let nephewImg = new Image();
 nephewImg.src = "images/camden.png";
 
@@ -12,25 +15,25 @@ const ctx = canvas.getContext("2d");
 
 function resizeCanvas() {
 
-  let baseWidth = 675;
-  let baseHeight = 900;
+    let baseWidth = 675;
+    let baseHeight = 900;
 
-  let controlSpace = 120; // arrows + safari bar
+    let controlSpace = 120; // arrows + safari bar
 
-  let availableHeight = window.innerHeight - controlSpace;
+    let availableHeight = window.innerHeight - controlSpace;
 
-  let scale = Math.min(
-    window.innerWidth / baseWidth,
-    availableHeight / baseHeight
-  );
+    let scale = Math.min(
+        window.innerWidth / baseWidth,
+        availableHeight / baseHeight
+    );
 
-  scale = Math.min(scale, 1);
+    scale = Math.min(scale, 1);
 
-  canvas.style.width = baseWidth * scale + "px";
-  canvas.style.height = baseHeight * scale + "px";
+    canvas.style.width = baseWidth * scale + "px";
+    canvas.style.height = baseHeight * scale + "px";
 
-  canvas.width = baseWidth;
-  canvas.height = baseHeight;
+    canvas.width = baseWidth;
+    canvas.height = baseHeight;
 }
 
 resizeCanvas();
@@ -86,7 +89,7 @@ function drawNephew() {
 }
 
 function positionNephew() {
-  nephew.y = canvas.height - nephew.height - 20;
+    nephew.y = canvas.height - nephew.height - 20;
 }
 
 
@@ -98,49 +101,53 @@ let whales = [];
 
 function spawnWhale() {
 
-  let whale = {
-    x: Math.random() * (canvas.width - 90),
-    y: 0,
-    width: 90,
-    height: 70,
-    timer: 60
-  };
+    let whale = {
+        x: Math.random() * (canvas.width - 90),
+        y: 0,
+        width: 90,
+        height: 70,
+        timer: 60
+    };
 
-  whales.push(whale);
+    whales.push(whale);
 }
 
 
-setInterval(spawnWhale, 2000);
+setInterval(() => {
+    if (!gameOver) spawnWhale();
+}, 2000);
 
 function moveWhales() {
 
-  whales.forEach(whale => {
+    if (gameOver) return;
 
-    if (whale.timer > 0) {
-      whale.timer--;
-    } else {
-      whale.y += 8;
-    }
+    whales.forEach(whale => {
 
-  });
+        if (whale.timer > 0) {
+            whale.timer--;
+        } else {
+            whale.y += 8;
+        }
 
-  whales = whales.filter(whale => whale.y < canvas.height);
+    });
+
 }
+
 
 
 function drawWhales() {
 
-  whales.forEach(whale => {
+    whales.forEach(whale => {
 
-    ctx.drawImage(
-      whaleImg,
-      whale.x,
-      whale.y,
-      whale.width,
-      whale.height
-    );
+        ctx.drawImage(
+            whaleImg,
+            whale.x,
+            whale.y,
+            whale.width,
+            whale.height
+        );
 
-  });
+    });
 }
 
 
@@ -149,7 +156,31 @@ function drawWhales() {
 // COLLISION
 // ----------------------
 
-function detectHit() {
+// function detectHit() {
+
+//     for (let i = whales.length - 1; i >= 0; i--) {
+
+//         let whale = whales[i];
+
+//         if (
+//             nephew.x < whale.x + whale.width &&
+//             nephew.x + nephew.width > whale.x &&
+//             nephew.y < whale.y + whale.height &&
+//             nephew.y + nephew.height > whale.y
+//         ) {
+
+//             whales.splice(i, 1);
+//             hitCount++;
+
+//             // SHOW "WHALE BALLS!" FOR ~1 SECOND
+//             hitFlashTimer = 60;
+//         }
+//     }
+// }
+
+function detectCatch() {
+
+    if (gameOver) return;
 
     for (let i = whales.length - 1; i >= 0; i--) {
 
@@ -161,14 +192,36 @@ function detectHit() {
             nephew.y < whale.y + whale.height &&
             nephew.y + nephew.height > whale.y
         ) {
-
             whales.splice(i, 1);
             hitCount++;
-
-            // SHOW "WHALE BALLS!" FOR ~1 SECOND
-            hitFlashTimer = 60;
         }
     }
+}
+
+function detectMiss() {
+
+    if (gameOver) return;
+
+    for (let whale of whales) {
+
+        if (whale.y + whale.height >= canvas.height) {
+
+            gameOver = true;
+            hitFlashTimer = 120; // 2 seconds at 60fps
+            resetTimer = 120;
+
+            break;
+        }
+    }
+}
+
+function resetGame() {
+
+    whales = [];
+    hitCount = 0;
+    gameOver = false;
+
+    nephew.x = canvas.width / 2 - nephew.width / 2;
 }
 
 
@@ -179,7 +232,7 @@ function detectHit() {
 function drawCounter() {
     ctx.fillStyle = "white";
     ctx.font = "30px Arial";
-    ctx.fillText("Whale Hits: " + hitCount, 20, 40);
+    ctx.fillText("Whale Captures: " + hitCount, 20, 40);
 }
 
 // ----------------------
@@ -192,7 +245,8 @@ function gameLoop() {
 
     moveNephew();
     moveWhales();
-    detectHit();
+    detectCatch();
+    detectMiss();
 
     positionNephew();
     drawNephew();
@@ -200,34 +254,42 @@ function gameLoop() {
     drawCounter();
     drawHitFlash();
 
+    if (gameOver && resetTimer > 0) {
+        resetTimer--;
+        if (resetTimer === 0) {
+            resetGame();
+        }
+    }
+
+
 
     requestAnimationFrame(gameLoop);
 }
 
 function drawHitFlash() {
 
-  if (hitFlashTimer > 0) {
+    if (hitFlashTimer > 0) {
 
-    ctx.save();
+        ctx.save();
 
-    let splashWidth = 250;
-    let splashHeight = 150;
+        let splashWidth = 250;
+        let splashHeight = 150;
 
-    let splashX = canvas.width / 2 - splashWidth / 2;
-    let splashY = canvas.height / 2 - splashHeight / 2;
+        let splashX = canvas.width / 2 - splashWidth / 2;
+        let splashY = canvas.height / 2 - splashHeight / 2;
 
-    ctx.drawImage(
-      whaleBallsImg,
-      splashX,
-      splashY,
-      splashWidth,
-      splashHeight
-    );
+        ctx.drawImage(
+            whaleBallsImg,
+            splashX,
+            splashY,
+            splashWidth,
+            splashHeight
+        );
 
-    ctx.restore();
+        ctx.restore();
 
-    hitFlashTimer--;
-  }
+        hitFlashTimer--;
+    }
 }
 
 
@@ -237,29 +299,29 @@ function drawHitFlash() {
 gameLoop();
 
 function holdKey(key) {
-  return function(e) {
-    e.preventDefault();
-    keys[key] = true;
-  };
+    return function (e) {
+        e.preventDefault();
+        keys[key] = true;
+    };
 }
 
 function releaseKey(key) {
-  return function(e) {
-    e.preventDefault();
-    keys[key] = false;
-  };
+    return function (e) {
+        e.preventDefault();
+        keys[key] = false;
+    };
 }
 
 // LEFT BUTTON
-leftBtn.addEventListener("touchstart", holdKey("ArrowLeft"), { passive:false });
-leftBtn.addEventListener("touchend", releaseKey("ArrowLeft"), { passive:false });
+leftBtn.addEventListener("touchstart", holdKey("ArrowLeft"), { passive: false });
+leftBtn.addEventListener("touchend", releaseKey("ArrowLeft"), { passive: false });
 leftBtn.addEventListener("mousedown", holdKey("ArrowLeft"));
 leftBtn.addEventListener("mouseup", releaseKey("ArrowLeft"));
 leftBtn.addEventListener("mouseleave", releaseKey("ArrowLeft"));
 
 // RIGHT BUTTON
-rightBtn.addEventListener("touchstart", holdKey("ArrowRight"), { passive:false });
-rightBtn.addEventListener("touchend", releaseKey("ArrowRight"), { passive:false });
+rightBtn.addEventListener("touchstart", holdKey("ArrowRight"), { passive: false });
+rightBtn.addEventListener("touchend", releaseKey("ArrowRight"), { passive: false });
 rightBtn.addEventListener("mousedown", holdKey("ArrowRight"));
 rightBtn.addEventListener("mouseup", releaseKey("ArrowRight"));
 rightBtn.addEventListener("mouseleave", releaseKey("ArrowRight"));
