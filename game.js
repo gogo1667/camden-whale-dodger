@@ -6,27 +6,6 @@ const startScreen = document.getElementById("startScreen");
 const nameInput = document.getElementById("nameInput");
 const saveNameBtn = document.getElementById("saveNameBtn");
 
-if (playerName) {
-    startScreen.style.display = "none";
-    gameStarted = true;
-}
-
-saveNameBtn.addEventListener("click", () => {
-
-    playerName = nameInput.value;
-
-    if (!playerName) return;
-
-    localStorage.setItem("whalePlayerName", playerName);
-
-    startScreen.style.display = "none";
-
-    gameStarted = true;
-
-    startSpawning();
-});
-
-
 
 let gameOver = false;
 let resetTimer = 0;
@@ -50,6 +29,44 @@ let whales = [];
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+
+let nephew = {
+    x: canvas.width / 2 - 45,
+    y: canvas.height - 90 - 10,
+    width: 150,
+    height: 150,
+    speed: 7
+};
+
+let keys = {};
+
+if (playerName) {
+
+    startScreen.style.display = "none";
+
+    resizeCanvas();
+    positionNephew();
+
+    gameStarted = true;
+    startSpawning();
+}
+
+
+saveNameBtn.addEventListener("click", () => {
+
+    playerName = nameInput.value;
+    if (!playerName) return;
+
+    localStorage.setItem("whalePlayerName", playerName);
+
+    startScreen.style.display = "none";
+
+    resizeCanvas();
+    positionNephew();
+
+    gameStarted = true;
+    startSpawning();
+});
 
 async function saveScore(name, score) {
 
@@ -92,15 +109,7 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
-let nephew = {
-    x: canvas.width / 2 - 45,
-    y: canvas.height - 90 - 10,
-    width: 150,
-    height: 150,
-    speed: 7
-};
 
-let keys = {};
 
 document.addEventListener("keydown", e => {
     keys[e.key] = true;
