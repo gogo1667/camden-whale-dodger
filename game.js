@@ -315,8 +315,29 @@ retryBtn.addEventListener("touchstart", (e) => {
     resetGame();
 }, { passive: false });
 
-retryBtn.addEventListener("click", () => {
+retryBtn.addEventListener("click", async () => {
+
+    try {
+
+        await fetch("http://localhost:3000/scores", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: playerName,
+                score: hitCount
+            })
+        });
+
+        console.log("Score saved!");
+
+    } catch (err) {
+        console.log("Score save failed", err);
+    }
+
     resetGame();
 });
+
 
 
