@@ -13,6 +13,9 @@ whaleBallsImg.src = "images/whaleBalls.png";
 let hitCount = 0;
 let hitFlashTimer = 0;
 
+let spawnDelay = 2000;
+let spawnInterval;
+
 let whales = [];
 
 const canvas = document.getElementById("gameCanvas");
@@ -98,9 +101,20 @@ function spawnWhale() {
     whales.push(whale);
 }
 
-setInterval(() => {
-    if (!gameOver) spawnWhale();
-}, 2000);
+function startSpawning() {
+
+    clearInterval(spawnInterval);
+
+    spawnInterval = setInterval(() => {
+        if (!gameOver) spawnWhale();
+    }, spawnDelay);
+}
+
+startSpawning();
+
+// setInterval(() => {
+//     if (!gameOver) spawnWhale();
+// }, spawnDelay);
 
 function moveWhales() {
 
@@ -148,38 +162,49 @@ function detectCatch() {
         ) {
             whales.splice(i, 1);
             hitCount++;
+
+            if (hitCount >= 10 && (hitCount - 10) % 5 === 0 && spawnDelay > 500) {
+
+                spawnDelay -= 250;
+                startSpawning();
+
+            }
+
         }
     }
 }
 
 function detectMiss() {
 
-  if (gameOver) return;
+    if (gameOver) return;
 
-  for (let whale of whales) {
+    for (let whale of whales) {
 
-    if (whale.y + whale.height >= canvas.height) {
+        if (whale.y + whale.height >= canvas.height) {
 
-      gameOver = true;
-      hitFlashTimer = 9999;
+            gameOver = true;
+            hitFlashTimer = 9999;
 
-      retryBtn.style.display = "block";
+            retryBtn.style.display = "block";
 
-      break;
+            break;
+        }
     }
-  }
 }
 
 function resetGame() {
 
-  whales = [];
-  hitCount = 0;
-  gameOver = false;
+    whales = [];
+    hitCount = 0;
+    gameOver = false;
 
-  nephew.x = canvas.width / 2 - nephew.width / 2;
-hitFlashTimer = 0;
+    nephew.x = canvas.width / 2 - nephew.width / 2;
+    hitFlashTimer = 0;
 
-  retryBtn.style.display = "none";
+    retryBtn.style.display = "none";
+
+    spawnDelay = 2000;
+    startSpawning();
 }
 
 function drawCounter() {
@@ -272,12 +297,12 @@ rightBtn.addEventListener("mouseleave", releaseKey("ArrowRight"));
 let retryBtn = document.getElementById("retryBtn");
 
 retryBtn.addEventListener("touchstart", (e) => {
-  e.preventDefault();
-  resetGame();
-}, { passive:false });
+    e.preventDefault();
+    resetGame();
+}, { passive: false });
 
 retryBtn.addEventListener("click", () => {
-  resetGame();
+    resetGame();
 });
 
 
