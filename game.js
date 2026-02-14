@@ -44,11 +44,16 @@ if (playerName) {
 
     startScreen.style.display = "none";
 
-    resizeCanvas();
-    positionNephew();
+    requestAnimationFrame(() => {
 
-    gameStarted = true;
-    startSpawning();
+        resizeCanvas();
+        positionNephew();
+
+        gameStarted = true;
+        startSpawning();
+
+    });
+
 }
 
 
@@ -290,9 +295,9 @@ function gameLoop() {
     }
 
     if (!gameStarted) {
-    requestAnimationFrame(gameLoop);
-    return;
-}
+        requestAnimationFrame(gameLoop);
+        return;
+    }
 
     requestAnimationFrame(gameLoop);
 }
@@ -362,7 +367,7 @@ retryBtn.addEventListener("touchstart", (e) => {
 
 retryBtn.addEventListener("click", async () => {
 
-await saveScore(playerName, hitCount);
+    await saveScore(playerName, hitCount);
 
     resetGame();
 });
