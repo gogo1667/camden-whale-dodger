@@ -58,8 +58,8 @@
         const db = getFirestore(app);
 
         enableIndexedDbPersistence(db).catch((err) => {
-    console.log("Persistence failed:", err.code);
-});
+            console.log("Persistence failed:", err.code);
+        });
 
 
         window.db = db;
