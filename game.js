@@ -152,7 +152,6 @@ function resumeWhalesAfterBuckWave() {
 
 function moveWhales() {
     if (gameOver) return;
-    if (phase !== "whale") return;
 
     for (let i = whales.length - 1; i >= 0; i--) {
         let whale = whales[i];
@@ -163,6 +162,7 @@ function moveWhales() {
         if (whale.y > canvas.height) whales.splice(i, 1);
     }
 }
+
 
 function moveBucks() {
     if (gameOver) return;
