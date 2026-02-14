@@ -40,17 +40,20 @@ let nephew = {
 
 let keys = {};
 
+setRealViewportHeight();
+
 if (playerName) {
 
     startScreen.style.display = "none";
 
     requestAnimationFrame(() => {
 
-        resizeCanvas();
-        positionNephew();
+    setRealViewportHeight();
+    resizeCanvas();
+    positionNephew();
 
-        gameStarted = true;
-        startSpawning();
+    gameStarted = true;
+    startSpawning();
 
     });
 
@@ -66,11 +69,17 @@ saveNameBtn.addEventListener("click", () => {
 
     startScreen.style.display = "none";
 
-    resizeCanvas();
-    positionNephew();
+    requestAnimationFrame(() => {
 
-    gameStarted = true;
-    startSpawning();
+        setRealViewportHeight();
+        resizeCanvas();
+        positionNephew();
+
+        gameStarted = true;
+        startSpawning();
+
+    });
+
 });
 
 async function saveScore(name, score) {
@@ -85,6 +94,13 @@ async function saveScore(name, score) {
         doc(window.db, "scores", crypto.randomUUID()),
         newScore
     );
+}
+
+function setRealViewportHeight() {
+
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+
 }
 
 
