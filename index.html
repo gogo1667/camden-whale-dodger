@@ -3,8 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="viewport"
-content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 
     <title>Whale Balls</title>
     <link rel="stylesheet" href="style.css">
@@ -14,12 +13,12 @@ content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=
 
     <div id="gameWrapper">
 
-<div id="startScreen">
-    <h1>Welcome to Whale Balls!!!</h1>
-    <h3>Enter Your Name</h3>
-    <input id="nameInput" placeholder="Your Name" />
-    <button id="saveNameBtn">START</button>
-</div>
+        <div id="startScreen">
+            <h1>Welcome to Whale Balls!!!</h1>
+            <h3>Enter Your Name</h3>
+            <input id="nameInput" placeholder="Your Name" />
+            <button id="saveNameBtn">START</button>
+        </div>
 
 
         <div id="gameContainer">
@@ -39,7 +38,12 @@ content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=
     <script type="module">
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import {
+            getFirestore,
+            doc,
+            setDoc,
+            enableIndexedDbPersistence
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCclgnOZ6zk-Bp3EmpCPu6oNZJLhNG5-mQ",
@@ -52,6 +56,11 @@ content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+
+        enableIndexedDbPersistence(db).catch((err) => {
+    console.log("Persistence failed:", err.code);
+});
+
 
         window.db = db;
         window.doc = doc;
