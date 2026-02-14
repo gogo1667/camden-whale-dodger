@@ -10,6 +10,11 @@ whaleImg.src = "images/whale.png";
 let whaleBallsImg = new Image();
 whaleBallsImg.src = "images/whaleBalls.png";
 
+let hitCount = 0;
+let hitFlashTimer = 0;
+
+let whales = [];
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -38,18 +43,6 @@ function resizeCanvas() {
 
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
-
-
-// ----------------------
-// HIT COUNTER
-// ----------------------
-
-let hitCount = 0;
-let hitFlashTimer = 0;
-
-// ----------------------
-// NEPHEW
-// ----------------------
 
 let nephew = {
     x: canvas.width / 2 - 45,
@@ -92,18 +85,11 @@ function positionNephew() {
     nephew.y = canvas.height - nephew.height - 20;
 }
 
-
-// ----------------------
-// WHALES
-// ----------------------
-
-let whales = [];
-
 function spawnWhale() {
 
     let whale = {
         x: Math.random() * (canvas.width - 90),
-        y: 0,
+        y: 80,
         width: 90,
         height: 70,
         timer: 60
@@ -111,7 +97,6 @@ function spawnWhale() {
 
     whales.push(whale);
 }
-
 
 setInterval(() => {
     if (!gameOver) spawnWhale();
@@ -130,10 +115,7 @@ function moveWhales() {
         }
 
     });
-
 }
-
-
 
 function drawWhales() {
 
@@ -149,34 +131,6 @@ function drawWhales() {
 
     });
 }
-
-
-
-// ----------------------
-// COLLISION
-// ----------------------
-
-// function detectHit() {
-
-//     for (let i = whales.length - 1; i >= 0; i--) {
-
-//         let whale = whales[i];
-
-//         if (
-//             nephew.x < whale.x + whale.width &&
-//             nephew.x + nephew.width > whale.x &&
-//             nephew.y < whale.y + whale.height &&
-//             nephew.y + nephew.height > whale.y
-//         ) {
-
-//             whales.splice(i, 1);
-//             hitCount++;
-
-//             // SHOW "WHALE BALLS!" FOR ~1 SECOND
-//             hitFlashTimer = 60;
-//         }
-//     }
-// }
 
 function detectCatch() {
 
@@ -216,7 +170,6 @@ function detectMiss() {
   }
 }
 
-
 function resetGame() {
 
   whales = [];
@@ -229,21 +182,11 @@ hitFlashTimer = 0;
   retryBtn.style.display = "none";
 }
 
-
-
-// ----------------------
-// DRAW COUNTER
-// ----------------------
-
 function drawCounter() {
     ctx.fillStyle = "white";
     ctx.font = "30px Arial";
     ctx.fillText("Whales: " + hitCount, 20, 40);
 }
-
-// ----------------------
-// GAME LOOP
-// ----------------------
 
 function gameLoop() {
 
@@ -266,8 +209,6 @@ function gameLoop() {
             resetGame();
         }
     }
-
-
 
     requestAnimationFrame(gameLoop);
 }
@@ -297,10 +238,6 @@ function drawHitFlash() {
         hitFlashTimer--;
     }
 }
-
-
-
-
 
 gameLoop();
 
