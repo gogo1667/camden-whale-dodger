@@ -1,9 +1,31 @@
+let gameStarted = false;
+
 let playerName = localStorage.getItem("whalePlayerName");
 
-if (!playerName) {
-    playerName = prompt("Enter your name:");
-    localStorage.setItem("whalePlayerName", playerName);
+const startScreen = document.getElementById("startScreen");
+const nameInput = document.getElementById("nameInput");
+const saveNameBtn = document.getElementById("saveNameBtn");
+
+if (playerName) {
+    startScreen.style.display = "none";
+    gameStarted = true;
 }
+
+saveNameBtn.addEventListener("click", () => {
+
+    playerName = nameInput.value;
+
+    if (!playerName) return;
+
+    localStorage.setItem("whalePlayerName", playerName);
+
+    startScreen.style.display = "none";
+
+    gameStarted = true;
+
+    startSpawning();
+});
+
 
 
 let gameOver = false;
@@ -133,7 +155,7 @@ function startSpawning() {
     }, spawnDelay);
 }
 
-startSpawning();
+// startSpawning();
 
 // setInterval(() => {
 //     if (!gameOver) spawnWhale();
@@ -257,6 +279,11 @@ function gameLoop() {
             resetGame();
         }
     }
+
+    if (!gameStarted) {
+    requestAnimationFrame(gameLoop);
+    return;
+}
 
     requestAnimationFrame(gameLoop);
 }
