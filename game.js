@@ -1,3 +1,13 @@
+let gameStarted = false;
+
+const welcomeScreen = document.getElementById("welcomeScreen");
+const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("click", () => {
+    gameStarted = true;
+    welcomeScreen.style.display = "none";
+});
+
 let gameOver = false;
 
 let nephewImg = new Image();
@@ -318,6 +328,12 @@ function drawHitFlash() {
 }
 
 function gameLoop() {
+    if (!gameStarted) {
+    requestAnimationFrame(gameLoop);
+    return;
+}
+
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     moveNephew();
