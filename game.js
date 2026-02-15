@@ -1,3 +1,13 @@
+let gameStarted = false;
+
+const welcomeScreen = document.getElementById("welcomeScreen");
+const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("click", () => {
+    gameStarted = true;
+    welcomeScreen.style.display = "none";
+});
+
 let gameOver = false;
 
 let nephewImg = new Image();
@@ -218,15 +228,12 @@ function detectCatch() {
         ) {
             whales.splice(i, 1);
 
-                hitCount++;
+            hitCount++;
 
-if (hitCount === nextBuckWaveAt && spawnDelay > 500) {
-    buckTriggerPending = true;
-    nextBuckWaveAt += 10;
-}
-
-
-
+            if (hitCount === nextBuckWaveAt && spawnDelay > 500) {
+                buckTriggerPending = true;
+                nextBuckWaveAt += 10;
+            }
         }
     }
 }
@@ -270,8 +277,6 @@ function detectBuckHit() {
         }
     }
 }
-
-
 
 function resetGame() {
     gameOver = false;
@@ -318,6 +323,12 @@ function drawHitFlash() {
 }
 
 function gameLoop() {
+    if (!gameStarted) {
+        requestAnimationFrame(gameLoop);
+        return;
+    }
+
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     moveNephew();
@@ -330,10 +341,10 @@ function gameLoop() {
     }
 
     if (buckTriggerPending) {
-    buckTriggerPending = false;
-    stopWhaleSpawning();
-    buckWavePending = true;
-}
+        buckTriggerPending = false;
+        stopWhaleSpawning();
+        buckWavePending = true;
+    }
 
 
     detectCatch();
@@ -349,7 +360,6 @@ function gameLoop() {
 
     requestAnimationFrame(gameLoop);
 }
-
 
 startWhaleSpawning();
 gameLoop();
