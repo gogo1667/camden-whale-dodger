@@ -30,6 +30,8 @@ let buckHitboxScale = 0.45;
 let nephewHitboxScale = 1;
 
 let buckWavePending = false;
+let buckTriggerPending = false;
+
 
 let nextBuckWaveAt = 10;
 
@@ -218,13 +220,11 @@ function detectCatch() {
 
                 hitCount++;
 
-            if (hitCount === nextBuckWaveAt && spawnDelay > 500) {
+if (hitCount === nextBuckWaveAt && spawnDelay > 500) {
+    buckTriggerPending = true;
+    nextBuckWaveAt += 10;
+}
 
-                stopWhaleSpawning();
-                buckWavePending = true;
-
-                nextBuckWaveAt += 10;
-            }
 
 
         }
@@ -328,6 +328,13 @@ function gameLoop() {
         buckWavePending = false;
         startBuckWave();
     }
+
+    if (buckTriggerPending) {
+    buckTriggerPending = false;
+    stopWhaleSpawning();
+    buckWavePending = true;
+}
+
 
     detectCatch();
     detectMiss();
