@@ -26,6 +26,10 @@ let pendingResume = false;
 let whales = [];
 let bucks = [];
 
+let buckHitboxScale = 0.45;
+let nephewHitboxScale = 1;
+
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -232,15 +236,22 @@ function detectMiss() {
 }
 
 function detectBuckHit() {
+
     if (gameOver) return;
-    if (phase !== "buck") return;
 
     for (let buck of bucks) {
+
+        let buckHitWidth = buck.width * buckHitboxScale;
+        let buckHitHeight = buck.height * buckHitboxScale;
+
+        let buckOffsetX = (buck.width - buckHitWidth) / 2;
+        let buckOffsetY = (buck.height - buckHitHeight) / 2;
+
         if (
-            nephew.x < buck.x + buck.width &&
-            nephew.x + nephew.width > buck.x &&
-            nephew.y < buck.y + buck.height &&
-            nephew.y + nephew.height > buck.y
+            nephew.x < buck.x + buckOffsetX + buckHitWidth &&
+            nephew.x + nephew.width > buck.x + buckOffsetX &&
+            nephew.y < buck.y + buckOffsetY + buckHitHeight &&
+            nephew.y + nephew.height > buck.y + buckOffsetY
         ) {
             gameOver = true;
             hitFlashTimer = 9999;
@@ -249,6 +260,8 @@ function detectBuckHit() {
         }
     }
 }
+
+
 
 function resetGame() {
     gameOver = false;
