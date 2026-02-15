@@ -29,6 +29,9 @@ let bucks = [];
 let buckHitboxScale = 0.45;
 let nephewHitboxScale = 1;
 
+let buckWavePending = false;
+
+let nextBuckWaveAt = 10;
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -212,11 +215,18 @@ function detectCatch() {
             nephew.y + nephew.height > whale.y
         ) {
             whales.splice(i, 1);
-            hitCount++;
 
-            if (hitCount >= 10 && (hitCount - 10) % 5 === 0 && spawnDelay > 500) {
-                startBuckWave();
+                hitCount++;
+
+            if (hitCount === nextBuckWaveAt && spawnDelay > 500) {
+
+                stopWhaleSpawning();
+                buckWavePending = true;
+
+                nextBuckWaveAt += 10;
             }
+
+
         }
     }
 }
@@ -314,6 +324,11 @@ function gameLoop() {
     moveWhales();
     moveBucks();
 
+    if (buckWavePending && whales.length === 0) {
+        buckWavePending = false;
+        startBuckWave();
+    }
+
     detectCatch();
     detectMiss();
     detectBuckHit();
@@ -327,6 +342,7 @@ function gameLoop() {
 
     requestAnimationFrame(gameLoop);
 }
+
 
 startWhaleSpawning();
 gameLoop();
