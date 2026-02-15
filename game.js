@@ -228,15 +228,12 @@ function detectCatch() {
         ) {
             whales.splice(i, 1);
 
-                hitCount++;
+            hitCount++;
 
-if (hitCount === nextBuckWaveAt && spawnDelay > 500) {
-    buckTriggerPending = true;
-    nextBuckWaveAt += 10;
-}
-
-
-
+            if (hitCount === nextBuckWaveAt && spawnDelay > 500) {
+                buckTriggerPending = true;
+                nextBuckWaveAt += 10;
+            }
         }
     }
 }
@@ -280,8 +277,6 @@ function detectBuckHit() {
         }
     }
 }
-
-
 
 function resetGame() {
     gameOver = false;
@@ -329,9 +324,9 @@ function drawHitFlash() {
 
 function gameLoop() {
     if (!gameStarted) {
-    requestAnimationFrame(gameLoop);
-    return;
-}
+        requestAnimationFrame(gameLoop);
+        return;
+    }
 
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -346,10 +341,10 @@ function gameLoop() {
     }
 
     if (buckTriggerPending) {
-    buckTriggerPending = false;
-    stopWhaleSpawning();
-    buckWavePending = true;
-}
+        buckTriggerPending = false;
+        stopWhaleSpawning();
+        buckWavePending = true;
+    }
 
 
     detectCatch();
@@ -365,7 +360,6 @@ function gameLoop() {
 
     requestAnimationFrame(gameLoop);
 }
-
 
 startWhaleSpawning();
 gameLoop();
